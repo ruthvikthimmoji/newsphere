@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:news_sphere/data/news_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,31 +14,43 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List articles = [];
+  int pageIndex = 1;
+  final ScrollController _scrollController = ScrollController();
+  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
     fetchNews();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent * 0.8) {
+        fetchNews(); // Fetch next 10 articles when 80% scrolled
+      }
+    });
   }
 
   Future<void> fetchNews() async {
-    final String apiKey = dotenv.env['NEWS_API_KEY'] ?? '';
-    final String url =
-        'https://newsapi.org/v2/top-headlines?country=us&apiKey=$apiKey';
+    if (_isLoading) return; // Prevent multiple requests
 
-    try {
-      final response = await http.get(Uri.parse(url));
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        setState(() {
-          articles = data['articles'];
-        });
-      } else {
-        throw Exception('Failed to load news');
+    _isLoading = true;
+
+    List newArticles = await NewsService.fetchNews(pageIndex);
+
+    setState(() {
+      if (newArticles.isNotEmpty) {
+        articles.addAll(newArticles);
+        pageIndex++; // Increase page for next request
       }
-    } catch (e) {
-      print('Error fetching news: $e');
-    }
+    });
+
+    _isLoading = false;
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -101,6 +114,7 @@ class _HomePageState extends State<HomePage> {
       body: articles.isEmpty
           ? Center(child: CircularProgressIndicator())
           : ListView.builder(
+              controller: _scrollController,
               itemCount: articles.length,
               itemBuilder: (context, index) {
                 final article = articles[index];
