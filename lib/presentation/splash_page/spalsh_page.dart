@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:news_sphere/core/configs/images/app_images.dart';
-import 'package:news_sphere/presentation/intro/get_started_page.dart';
 import 'package:news_sphere/presentation/intro/get_started_page_2.dart';
 
 class SplashPage extends StatefulWidget {

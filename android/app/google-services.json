@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1079558089114",
+    "project_id": "newsphere-4a543",
+    "storage_bucket": "newsphere-4a543.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1079558089114:android:2061ab284bf20b6ae23223",
+        "android_client_info": {
+          "package_name": "com.example.news_sphere"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOZsFD4DMHemUobBsclZ5CjcvOtWf_UDs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

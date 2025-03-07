@@ -1,152 +1,93 @@
 import 'package:flutter/material.dart';
-import 'package:news_sphere/presentation/auth/registration_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:news_sphere/domain/auth/auth.dart';
 
-import '../../core/configs/images/app_images.dart';
-import '../root/home_page.dart';
-
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  String? errorMessage = "";
+  bool isLogin = true;
+
+  final TextEditingController _controllerEmail = TextEditingController();
+  final TextEditingController _controllerPassword = TextEditingController();
+
+  Future<void> signInWithEmailAndPassword() async {
+    try {
+      await Auth().signInWithEmailAndPassword(
+          email: _controllerEmail.text, password: _controllerPassword.text);
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        errorMessage = e.message;
+      });
+    }
+  }
+
+  Future<void> createUserWithEmailAndPassword() async {
+    try {
+      await Auth().createUserWithEmailAndPassword(
+          email: _controllerEmail.text, password: _controllerPassword.text);
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        errorMessage = e.message;
+      });
+    }
+  }
+
+  Widget _title() {
+    return const Text("Firebase Auth");
+  }
+
+  Widget _entryField(String title, TextEditingController controller) {
+    return TextField(
+      controller: controller,
+      decoration: InputDecoration(labelText: title),
+    );
+  }
+
+  Widget _errorMessage() {
+    return Text(errorMessage == "" ? "" : "Humm?$errorMessage");
+  }
+
+  Widget _submitButton() {
+    return ElevatedButton(
+        onPressed: isLogin
+            ? signInWithEmailAndPassword
+            : createUserWithEmailAndPassword,
+        child: Text(isLogin ? "Login" : "Register"));
+  }
+
+  Widget _loginButton() {
+    return TextButton(
+      onPressed: () {
+        setState(() {
+          isLogin = !isLogin;
+        });
+      },
+      child: Text(isLogin ? "Register instead" : "Login Instead"),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Image.asset(
-              AppImages.startBG,
-              color: Colors.black87,
-              colorBlendMode: BlendMode.darken,
-              fit: BoxFit.cover,
-            ),
-          ),
-          SafeArea(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "LOGIN",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 36,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: TextField(
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
-                              borderSide: BorderSide(color: Colors.white60)),
-                          hintText: "Email/PhoneNumber",
-                          hintStyle:
-                              TextStyle(color: Colors.white60, fontSize: 16)),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: TextField(
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
-                              borderSide: BorderSide(color: Colors.white60)),
-                          hintText: "Password",
-                          hintStyle:
-                              TextStyle(color: Colors.white60, fontSize: 16)),
-                    ),
-                  ),
-                  SizedBox(height: 15),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 20.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  RegistrationPage(),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          "Forgot Password?",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "New User?",
-                        style: TextStyle(color: Colors.white, fontSize: 14),
-                      ),
-                      SizedBox(
-                        width: 5.0,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  RegistrationPage(),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          "Create a New Account.",
-                          style: TextStyle(
-                              color: Colors.blue,
-                              fontSize: 14,
-                              decoration: TextDecoration.underline,
-                              decorationColor: Colors.red),
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) => HomePage(),
-                          ),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        elevation: 10,
-                        minimumSize: Size(300, 50),
-                        backgroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        padding:
-                            EdgeInsets.symmetric(vertical: 16, horizontal: 40),
-                      ),
-                      child: Text(
-                        "Login",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
+      appBar: AppBar(
+        title: _title(),
+      ),
+      body: Container(
+        child: Column(
+          children: <Widget>[
+            _entryField("email", _controllerEmail),
+            _entryField("password", _controllerPassword),
+            _errorMessage(),
+            _submitButton(),
+            _loginButton(),
+          ],
+        ),
       ),
     );
   }

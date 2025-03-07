@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_sphere/common/widgets/widget_tree.dart';
 import 'package:news_sphere/presentation/auth/login_page.dart';
 
 import '../../core/configs/images/app_images.dart';
@@ -69,7 +70,7 @@ class GetStartedPage2 extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (BuildContext context) => LoginPage()));
+                              builder: (BuildContext context) => WidgetTree()));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
