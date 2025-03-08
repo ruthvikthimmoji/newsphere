@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:news_sphere/presentation/root/home_page.dart';
-import '../../core/configs/images/app_images.dart';
+import '../../../core/configs/images/app_images.dart';
+import '../../home/pages/presentation/home_page.dart';
 
 class RegistrationPage extends StatelessWidget {
   const RegistrationPage({super.key});

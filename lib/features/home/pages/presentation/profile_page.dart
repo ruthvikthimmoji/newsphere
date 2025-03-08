@@ -1,14 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:news_sphere/domain/auth/auth.dart';
 
-class Home extends StatelessWidget {
-  Home({super.key});
+import '../../../auth/domain/auth.dart';
 
-  final User? user = Auth().currentUser;
+class ProfilePage extends StatelessWidget {
+  ProfilePage({super.key});
+
+  final User? user = Auth.currentUser;
 
   Future<void> signOut() async {
-    await Auth().signOut();
+    await Auth.signOut();
   }
 
   Widget _title() {

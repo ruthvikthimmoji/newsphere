@@ -1,16 +1,26 @@
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:news_sphere/features/auth/domain/auth.dart';
 
 class BookmarkService {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  static String generateHashId(String url) {
+    return sha256.convert(utf8.encode(url)).toString();
+  }
 
   /// Add a bookmark for a user
-  Future<void> addBookmark(String userId, Map<String, dynamic> article) async {
+  static Future<void> addBookmark(Map<String, dynamic> article) async {
+    String userId = Auth.currentUser!.uid;
+    String docId = generateHashId(article['url']);
     try {
       await _firestore
           .collection('bookmarks')
           .doc(userId)
           .collection('articles')
-          .doc(article['id']) // Assuming each article has a unique ID
+          .doc(docId) // Assuming each article has a unique ID
           .set(article);
     } catch (e) {
       print('Error adding bookmark: $e');
@@ -18,13 +28,15 @@ class BookmarkService {
   }
 
   /// Remove a bookmarked article
-  Future<void> removeBookmark(String userId, String articleId) async {
+  static Future<void> removeBookmark(Map<String, dynamic> article) async {
+    String userId = Auth.currentUser!.uid;
+    String docId = generateHashId(article['url']);
     try {
       await _firestore
           .collection('bookmarks')
           .doc(userId)
           .collection('articles')
-          .doc(articleId)
+          .doc(docId)
           .delete();
     } catch (e) {
       print('Error removing bookmark: $e');
@@ -32,13 +44,15 @@ class BookmarkService {
   }
 
   /// Check if an article is bookmarked by a user
-  Future<bool> isBookmarked(String userId, String articleId) async {
+  static Future<bool> isBookmarked(Map<String, dynamic> article) async {
+    String userId = Auth.currentUser!.uid;
+    String docId = generateHashId(article['url']);
     try {
       DocumentSnapshot doc = await _firestore
           .collection('bookmarks')
           .doc(userId)
           .collection('articles')
-          .doc(articleId)
+          .doc(docId)
           .get();
       return doc.exists;
     } catch (e) {
@@ -48,8 +62,8 @@ class BookmarkService {
   }
 
   /// Get all bookmarked articles for a user
-  Future<List<Map<String, dynamic>>> getBookmarkedArticles(
-      String userId) async {
+  static Future<List<Map<String, dynamic>>> getBookmarkedArticles() async {
+    String userId = Auth.currentUser!.uid;
     try {
       QuerySnapshot querySnapshot = await _firestore
           .collection('bookmarks')

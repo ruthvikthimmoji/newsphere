@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:news_sphere/domain/auth/auth.dart';
-import 'package:news_sphere/presentation/auth/login_page.dart';
-import 'package:news_sphere/presentation/root/home_page.dart';
+import 'package:news_sphere/features/auth/presentation/login_page.dart';
+import 'package:news_sphere/features/home/pages/presentation/home_page.dart';
+
+import '../../features/auth/domain/auth.dart';
 
 class WidgetTree extends StatefulWidget {
   const WidgetTree({super.key});
@@ -14,7 +15,7 @@ class _WidgetTreeState extends State<WidgetTree> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: Auth().authStateChanges,
+        stream: Auth.authStateChanges,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return HomePage();

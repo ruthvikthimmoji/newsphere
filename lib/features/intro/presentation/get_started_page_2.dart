@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:news_sphere/common/widgets/widget_tree.dart';
-import 'package:news_sphere/presentation/auth/login_page.dart';
+import 'package:news_sphere/core/widgets/widget_tree.dart';
 
-import '../../core/configs/images/app_images.dart';
+import '../../../core/configs/images/app_images.dart';
 
 class GetStartedPage2 extends StatelessWidget {
   const GetStartedPage2({super.key});
