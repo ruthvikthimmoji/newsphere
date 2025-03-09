@@ -5,8 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'core/widgets/theme/app_theme.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding
-      .ensureInitialized(); // Ensures all plugins are initialized properly
+  WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
   await dotenv.load();
@@ -23,6 +22,7 @@ class MyApp extends StatelessWidget {
       darkTheme: AppTheme.darkTheme,
       theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
+      routes: {},
       home: SplashPage(),
     );
   }

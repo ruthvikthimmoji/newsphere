@@ -13,7 +13,7 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget _title() {
-    return const Text("Firebase Auth");
+    return const Text("Profile");
   }
 
   Widget _userUid() {

@@ -46,7 +46,9 @@ dependencies:
   flutter_bloc:
   hydrated_bloc:
   path_provider:
-  webview_flutter: ^4.10.0
+  webview_flutter: ^4.2.4
+  webview_flutter_wkwebview: ^3.4.4
+
   crypto:
 
 

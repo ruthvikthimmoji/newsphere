@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class ArticleView extends StatefulWidget {
-  final String blogUrl;
+  final String articleUrl;
 
-  const ArticleView({super.key, required this.blogUrl});
+  const ArticleView({super.key, required this.articleUrl});
 
   @override
   State<ArticleView> createState() => _ArticleViewState();
@@ -19,7 +19,7 @@ class _ArticleViewState extends State<ArticleView> {
 
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted) // Enable JavaScript
-      ..loadRequest(Uri.parse(widget.blogUrl)); // Load URL
+      ..loadRequest(Uri.parse(widget.articleUrl)); // Load URL
   }
 
   @override
