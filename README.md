@@ -6,16 +6,10 @@
 
 ## 🚀 Features
 ✅ **User Authentication** (Google Sign-In & Email/Password via Firebase)  
-✅ **Home Screen with Latest News** (Categorized News, Pagination Support)  
+✅ **Home Screen with Latest News** (Pagination Support)  
 ✅ **News Details Screen** (WebView to Read Full Articles)  
 ✅ **Search & Filter News** (Search Bar, Category-Based News)  
-✅ **Bookmark & User Preferences** (Save Articles to Firebase Firestore)  
-✅ **Dark Mode Support 🌙** (Optional)  
-
-
----
-
-## 📸 Screenshots  
+✅ **Bookmark & User Preferences** (Save Articles to Firebase Firestore)
 
 ---
 
