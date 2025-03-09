@@ -21,12 +21,14 @@
 
 ## 🛠️ Tech Stack
 - **Flutter (Dart)** - UI Framework
-- **Provider/Riverpod** - State Management
 - **Firebase Auth** - User Authentication
+
+https://github.com/user-attachments/assets/db489a51-779a-4b03-b6a1-3ece10b73261
+
+
 - **Cloud Firestore** - Bookmark Management
 - **NewsAPI** - Fetching News Data
-- **WebView** - Viewing Full Articles
-- **CachedNetworkImage** - Optimized Image Loading  
+- **WebView** - Viewing Full Articles 
 
 ---
 
